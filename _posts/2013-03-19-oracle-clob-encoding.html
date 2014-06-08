@@ -1,0 +1,12 @@
+---
+layout: default
+title: 关于Oracle clob的编码格式
+---
+<h2>{{ page.title }}</h2>
+<p>问题起源于去年的一次数据迁移，从编码格式为gb2312的Oracle表中，将数据迁移到MySQL中，同样编码格式也是gb2312。在迁移过程中，系统发生了问题，提示存在乱码数据，导致无法插入到MySQL的varchar字段中。开始查资料，以为是由于clob二进制存储的原因，导致clob是可以存放乱码数据的，而java的string编码格式为unicode，所以才会出现乱码的存在。当时没仔细思考太多，就做了一些简单处理就跳过了这部分内容。</p>
+<p>今天由于工作需要，又一次纠结上该问题，感谢伟大的Google，让我认识到了自己的错。原来Oracle的clob字段编码格式，一直以来只有两种，不是ucs2就是al16utf16(10g以后都是后一种)。这两种编码格式注定他们可以存放超出gb2312编码的数据，也就解释了为什么数据中可以出现乱码、火星文。</p>
+***
+参考地址：<br />
+<p>1. test[http://www.dbsnake.net/?s=257772.1](http://www.dbsnake.net/?s=257772.1)  </p>
+<p>2. http://www.orafan.net/blog/329.html</p>
+<p>{{ page.date | date_to_string }}</p>
